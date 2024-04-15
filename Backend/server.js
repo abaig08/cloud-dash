@@ -14,14 +14,7 @@ const db = mysql.createConnection({
 })
 
 app.post('/signup', (req, res) => {
-
     const sql = "INSERT INTO `login`(`name`, `email`, `password`) VALUES ('" + req.body.name + "', '" + req.body.email + "', '" + req.body.password + "')";
-    // const sql ="INSERT INTO login ('name', 'email','password') VALUES (?)"
-    // const values=[
-    //     req.body.name,
-    //     req.body.email,
-    //     req.body.password
-    // ]
     db.query(sql,(err,data) => {
         if(err){
             return res.json("Error");
@@ -31,6 +24,28 @@ app.post('/signup', (req, res) => {
         return res.json(data);
     })
 })
+
+
+app.post('/login', (req, res) => {
+    console.log(req.body.email);
+    console.log(req.body.password);
+
+    const sql = "SELECT * FROM login WHERE email = ? AND password = ?";
+    const values = [req.body.email, req.body.password];
+
+    db.query(sql, values, (err, data) => {
+        if (err) {
+            return res.json("Error");
+        }
+        console.log(data);
+        if (data.length > 0) {
+            return res.json("Success");
+        } else {
+            return res.json("Failed");
+        }
+    });
+});
+
 
 app.listen(8081, ()=> {
 

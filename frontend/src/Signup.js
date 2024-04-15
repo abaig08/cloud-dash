@@ -29,7 +29,7 @@ function Signup() {
             <div className='bg-white p-3 rounded w-25'>
                 <h2>Sign-Up</h2>
                 <form action="" onSubmit={handleSubmit}>
-                <div className="mb-3" >
+                    <div className="mb-3" >
                         <label htmlFor="name"><strong>Name</strong></label>
                         <input type="text" placeholder='Enter Name' name='name' className="form-control rounded-0"  onChange={handleInput}/>
                         {errors.name && <span className='text-danger'>{errors.name}</span>}
