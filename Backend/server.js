@@ -14,20 +14,26 @@ const db = mysql.createConnection({
 })
 
 app.post('/signup', (req, res) => {
-    const sql ="INSERT INTO login('name', 'email','password') VALUES (?)"
-    const values=[
-        req.body.name,
-        req.body.email,
-        req.body.password
-    ]
-    db.query(sql, [values],(err,data) => {
+
+    const sql = "INSERT INTO `login`(`name`, `email`, `password`) VALUES ('" + req.body.name + "', '" + req.body.email + "', '" + req.body.password + "')";
+    // const sql ="INSERT INTO login ('name', 'email','password') VALUES (?)"
+    // const values=[
+    //     req.body.name,
+    //     req.body.email,
+    //     req.body.password
+    // ]
+    db.query(sql,(err,data) => {
         if(err){
             return res.json("Error");
         }
+        
+        console.log(req.body); 
         return res.json(data);
     })
 })
 
 app.listen(8081, ()=> {
+
     console.log("Listening");
+
 })
