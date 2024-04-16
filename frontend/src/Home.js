@@ -7,16 +7,17 @@ function Home() {
         <nav class="navbar navbar-expand-sm bg-light navbar-light rounded-2">
           <ul class="navbar-nav">
             <li class="nav-item active">
-            <Link to="/" className='btn btn-default w-100  text-decoration-none'>Map</Link>
+            <Link to="/home" className='btn btn-default w-100  text-decoration-none'>Map</Link>
+            </li>
+            <li class="nav-item active">
+            <Link to="/live" className='btn btn-default w-100  text-decoration-none'>Live data</Link>
             </li>
             <li class="nav-item active">
             <Link to="/" className='btn btn-default w-100  text-decoration-none'>Status</Link>
             </li>
             <li class="nav-item active">
             <Link to="/" className='btn btn-default w-100  text-decoration-none'>Report</Link>
-            </li>
-                      
-            
+            </li> 
           </ul>
         </nav>
     </div>
