@@ -4,6 +4,10 @@ import Login from './Login'
 import Signup from './Signup'
 import Home from './Home'
 import Live from './Live'
+import Stat from './Stat'
+
+
+
 
 
 
@@ -15,6 +19,8 @@ function App() {
       <Route path='/signup' element={<Signup/>}> </Route>
       <Route path='/home' element={<Home/>}> </Route>
       <Route path='/live' element={<Live/>}> </Route>
+      <Route path='/stat' element={<Stat/>}> </Route>
+    
     </Routes>
     </BrowserRouter>
      
