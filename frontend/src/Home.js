@@ -1,14 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import {
-  MapContainer,
-  TileLayer,
-  useMap,
-} from 'https://cdn.esm.sh/react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 
 function Home() {
+
+  const center = [13.0827, 80.2707]; // London coordinates
+  const zoomLevel = 15; // Initial zoom level
+
   return (
-    <div className=' bg-primary vh-100 p-3'>
+    <div className='bg-primary vh-100 p-3'>
         <nav class="navbar navbar-expand-sm bg-light navbar-light rounded-2">
           <ul class="navbar-nav">
             <li class="nav-item active">
@@ -26,15 +27,26 @@ function Home() {
           </ul>
         </nav>
         <div class="pt-3">
-          <div class="">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Special title treatment</h5>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+            <div >
+              <div class="d-flex justify-content-center align-items-center">
+                <h2 className=""><b>Map Display</b></h2>
               </div>
+                <MapContainer center={center} zoom={zoomLevel} style={{ height: '600px', width: '100%' }}>
+                    
+                    <TileLayer
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    />
+
+                    {/* Add a marker at the center location */}
+                    <Marker position={center}>
+                    {/* Add a popup to the marker */}
+                    <Popup>
+                        This is Chennai.
+                    </Popup>
+                    </Marker>
+                </MapContainer>
             </div>
-          </div>
         </div>
 
     </div>
