@@ -5,6 +5,7 @@ import Signup from './Signup'
 import Home from './Home'
 import Live from './Live'
 import Stat from './Stat'
+import Welcome from './Welcome'
 
 
 
@@ -15,7 +16,8 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path='/' element={<Login/>}> </Route>
+      <Route path='/' element={<Welcome/>}> </Route>
+      <Route path='/login' element={<Login/>}> </Route>
       <Route path='/signup' element={<Signup/>}> </Route>
       <Route path='/home' element={<Home/>}> </Route>
       <Route path='/live' element={<Live/>}> </Route>
