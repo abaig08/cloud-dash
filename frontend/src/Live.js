@@ -17,7 +17,7 @@ function Live() {
             <Link to="/status" className='btn btn-default w-100  text-decoration-none'>Status</Link>
             </li>
             <li class="nav-item active">
-            <Link to="/" className='btn btn-default w-100  text-decoration-none'>Report</Link>
+            <Link to="/report" className='btn btn-default w-100  text-decoration-none'>Report</Link>
             </li> 
           </ul>
         </nav>

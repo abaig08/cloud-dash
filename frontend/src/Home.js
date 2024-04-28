@@ -22,7 +22,7 @@ function Home() {
             <Link to="/stat" className='btn btn-default w-100  text-decoration-none'>Status</Link>
             </li>
             <li class="nav-item active">
-            <Link to="/" className='btn btn-default w-100  text-decoration-none'>Report</Link>
+            <Link to="/report" className='btn btn-default w-100  text-decoration-none'>Report</Link>
             </li> 
           </ul>
         </nav>
@@ -31,7 +31,7 @@ function Home() {
               <div class="d-flex justify-content-center align-items-center">
                 <h2 className=""><b>Map Display</b></h2>
               </div>
-                <MapContainer center={center} zoom={zoomLevel} style={{ height: '600px', width: '100%' }}>
+                <MapContainer center={center} zoom={zoomLevel} style={{ height: '700px', width: '100%' }}>
                     
                     <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

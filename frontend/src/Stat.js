@@ -1,6 +1,4 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css';
 import { Link } from 'react-router-dom';
 
 
@@ -21,11 +19,48 @@ function Stat() {
             <Link to="/stat" className='btn btn-default w-100  text-decoration-none'>Status</Link>
             </li>
             <li class="nav-item active">
-            <Link to="/" className='btn btn-default w-100  text-decoration-none'>Report</Link>
+            <Link to="/report" className='btn btn-default w-100  text-decoration-none'>Report</Link>
             </li> 
           </ul>
         </nav>
-        
+        <div class="pt-5">
+        <table class="table table-bordered table-info ">
+            <thead>
+                <tr>
+                <th scope="col">Pipe no.</th>
+                <th scope="col">Area Code</th>
+                <th scope="col">Status</th>
+                <th scope="col">Supervisor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td >P001</td>
+                <td>600012</td>
+                <td>Verified</td>
+                <td>Ben Dover</td>
+                </tr>
+                <tr>
+                <td >P006</td>
+                <td>600002</td>
+                <td>Notified</td>
+                <td>Charles Sebastian</td>
+                </tr>
+                <tr>
+                <td >P092</td>
+                <td>600095</td>
+                <td>In Progress</td>
+                <td>Ravi Krishnan</td>     
+                </tr>
+                <tr>
+                <td >P045</td>
+                <td>600043</td>
+                <td>Resolved</td>
+                <td>Rishikesh Sathian</td>     
+                </tr>
+            </tbody>
+            </table>
+        </div>
     </div>
   );
 }
