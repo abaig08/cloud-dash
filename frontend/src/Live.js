@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-function Live2() {
+function Live() {
   const [flowData, setFlowData] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8081/flows') // Assuming your backend API endpoint
-      .then(response => response.json())
-      .then(data => {
-        setFlowData(data); // Set the fetched data to state
+    fetchData(); // Initial data fetch when component mounts
+
+    const intervalId = setInterval(() => {
+      fetchData(); // Fetch data periodically every 10 minutes
+    }, 600000); // 10 minutes in milliseconds
+
+    return () => {
+      clearInterval(intervalId); // Clean up interval on component unmount
+    };
+  }, []);
+
+  const fetchData = () => {
+    axios.get('http://localhost:8081/flows') // Fetch data from server endpoint
+      .then(response => {
+        setFlowData(response.data); // Update state with fetched data
       })
       .catch(error => {
-        console.error('Error fetching flow data:', error);
+        console.error('Error fetching data:', error);
       });
-  }, []);
+  };
 
   return (
     <div className='bg-primary vh-100 p-3'>
@@ -61,4 +73,4 @@ function Live2() {
   );
 }
 
-export default Live2;
+export default Live;

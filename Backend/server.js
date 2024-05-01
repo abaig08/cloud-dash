@@ -74,7 +74,7 @@ function fetchFlowData() {
     });
   }
   
-  const fetchDataInterval = 20000; // 10 minutes in milliseconds600000
+  const fetchDataInterval = 600000; // 10 minutes in milliseconds
   let flowData = [];
   
   // Initial fetch on server start
