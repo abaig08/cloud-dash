@@ -1,5 +1,6 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 function Report() {
 
@@ -24,6 +25,41 @@ function Report() {
   };
   
   const dateRange = getDateRangeOneMonthAgo();
+
+  const [reportData, setReportData] = useState(null);
+
+  useEffect(() => {
+    const fetchReportData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8081/report'); // Adjust URL as per your server endpoint
+        setReportData(response.data); // Update state with fetched data
+      } catch (error) {
+        console.error('Error fetching report data:', error);
+      }
+    };
+
+    fetchReportData();
+  }, []);
+
+  const handleDownloadReport = () => {
+    if (reportData) {
+      const { startDate, endDate } = dateRange;
+      const reportContent = `Report Period: ${dateRange.startDate} - ${dateRange.endDate}\nTotal Pipes: ${reportData.tot_pipes}\nTotal Leakages: ${reportData.tot_leaks}`;
+
+      // Create a Blob containing the report content
+      const blob = new Blob([reportContent], { type: 'text/plain' });
+
+      // Create an anchor element and trigger download
+      const anchor = document.createElement('a');
+      anchor.href = URL.createObjectURL(blob);
+      anchor.download = `report_${startDate}_${endDate}.txt`;
+      anchor.click();
+
+      // Clean up
+      URL.revokeObjectURL(anchor.href);
+    }
+  };
+
   return (
     <div className=' bg-primary vh-100 p-3'>
     <nav class="navbar navbar-expand-sm bg-light navbar-light rounded-2">
@@ -48,11 +84,16 @@ function Report() {
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">{dateRange.startDate} - {dateRange.endDate}</h5>
-            <p class="card-text pt-2">Total Pipes:{}</p>
-            <p class="card-text">Total Leakages:{}</p>
-            <p class="card-text">Total Resolved:{}</p>
-
-            <a href="/home" class="btn btn-primary align-items-center">Download Report</a>
+            {reportData ? (
+            <>
+              <h5 className="card-title">Report Summary</h5>
+              <p className="card-text pt-2">Total Pipes: {reportData.tot_pipes}</p>
+              <p className="card-text">Total Leaks: {reportData.tot_leaks}</p>
+            <button onClick={handleDownloadReport} className="btn btn-primary align-items-center">Download Report</button>
+            </>
+          ) : (
+            <p>Loading report data...</p>
+          )}
         </div>
     </div>
 </div>

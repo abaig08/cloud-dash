@@ -102,6 +102,37 @@ function fetchFlowData() {
     res.status(200).json(flowData);
   });
 
+  app.get('/stats', (req, res) => {
+    const sql = "SELECT * FROM stats";
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching stats data:', err);
+            res.status(500).json({ error: 'Failed to fetch stats data' });
+            return;
+        }
+        res.json(results);
+    });
+});
+
+// Route to fetch report data from the master table
+app.get('/report', (req, res) => {
+    const sql = "SELECT tot_pipes, tot_leaks FROM master";
+
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching report data:', err);
+            res.status(500).json({ error: 'Failed to fetch report data' });
+            return;
+        }
+        if (results.length === 0) {
+            res.status(404).json({ error: 'Report data not found' });
+            return;
+        }
+        const reportData = results[0]; // Assuming there's only one row in the master table
+        res.json(reportData);
+    });
+});
 
 app.listen(8081, ()=> {
 
