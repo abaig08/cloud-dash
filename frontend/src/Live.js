@@ -50,6 +50,7 @@ function Live() {
           <thead>
             <tr>
               <th scope="col">Timestamp</th>
+              <th scope="col">Area Code</th>
               <th scope="col">Flow1</th>
               <th scope="col">Flow2</th>
               <th scope="col">Difference</th>
@@ -60,6 +61,7 @@ function Live() {
             {flowData.map((flow, index) => (
               <tr key={index}>
                 <td>{flow.timestamp}</td>
+                <td>{flow.area_code}</td>
                 <td>{flow.flow1}</td>
                 <td>{flow.flow2}</td>
                 <td>{Math.abs(flow.flow1 - flow.flow2)}</td>
