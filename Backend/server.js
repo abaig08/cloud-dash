@@ -1,6 +1,8 @@
 const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
+const nodemailer = require('nodemailer');
+
 const bodyParser = require('body-parser');
 
 const app = express();
@@ -47,19 +49,6 @@ app.post('/login', (req, res) => {
     });
 });
 
-// app.get('/flows', (req, res) => {
-//     const sql = 'SELECT * FROM flow';
-  
-//     db.query(sql, (err, results) => {
-//       if (err) {
-//         console.error('Error fetching flow data:', err);
-//         res.status(500).json({ error: 'Error fetching flow data' });
-//       } else {
-//         res.status(200).json(results);
-//       }
-//     });
-//   });
-
 function fetchFlowData() {
     return new Promise((resolve, reject) => {
       const sql = 'SELECT * FROM flow';
@@ -74,7 +63,7 @@ function fetchFlowData() {
     });
   }
   
-  const fetchDataInterval = 600000; // 10 minutes in milliseconds
+  const fetchDataInterval = 60000; // 10 minutes in milliseconds
   let flowData = [];
   
   // Initial fetch on server start
@@ -114,6 +103,52 @@ function fetchFlowData() {
         res.json(results);
     });
 });
+
+// Create a Nodemailer transporter
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'dummybot4003@gmail.com',
+    pass: 'oxft fief bzvy kkgm' // Use the app password generated for your Gmail account
+  }
+});
+
+// Endpoint to handle sending email notifications
+app.post('/send-email-notifications', (req, res) => {
+  const sql = `SELECT * FROM flow WHERE status = 0`; // Select rows with status = 0 (OFF)
+
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error('Error fetching flow data:', err);
+      res.status(500).json({ error: 'Failed to fetch flow data' });
+      return;
+    }
+
+    // Iterate over flow records with status = 0 (OFF)
+    results.forEach(flow => {
+      const { timestamp, flow1, flow2, status, area_code, email } = flow;
+
+      const mailOptions = {
+        from: 'dummybot4003@gmail.com',
+        to: email, // Send email to the recipient from flow record
+        subject: `Flow Status Alert - Area Code ${area_code}`,
+        text: `Dear recipient,\n\nThe flow status for Area Code ${area_code} is OFF.\n\nFlow1: ${flow1}\nFlow2: ${flow2}\nTimestamp: ${timestamp}\n\nRegards,\nYour App Team`
+      };
+
+      // Send email using Nodemailer transporter
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error('Email sending error:', error);
+        } else {
+          console.log(`Email sent to ${email} successfully`);
+        }
+      });
+    });
+
+    res.status(200).json({ message: 'Email notifications sent successfully' });
+  });
+});
+
 
 // Route to fetch report data from the master table
 app.get('/report', (req, res) => {

@@ -10,7 +10,7 @@ function Live() {
 
     const intervalId = setInterval(() => {
       fetchData(); // Fetch data periodically every 10 minutes
-    }, 600000); // 10 minutes in milliseconds
+    }, 120000); // 5 minutes in milliseconds
 
     return () => {
       clearInterval(intervalId); // Clean up interval on component unmount
@@ -21,10 +21,29 @@ function Live() {
     axios.get('http://localhost:8081/flows') // Fetch data from server endpoint
       .then(response => {
         setFlowData(response.data); // Update state with fetched data
+
+        // Check flow status and send email if status is OFF (status = 0)
+        sendEmailNotifications();
       })
       .catch(error => {
         console.error('Error fetching data:', error);
       });
+  };
+
+  const sendEmailNotifications = () => {
+    // Filter flowData to get records with status = 0 (OFF)
+    const offFlows = flowData.filter(flow => flow.status === 0);
+
+    // If there are OFF flows, send email notifications
+    if (offFlows.length > 0) {
+      axios.post('http://localhost:8081/send-email-notifications')
+        .then(response => {
+          console.log('Email notifications sent successfully');
+        })
+        .catch(error => {
+          console.error('Error sending email notifications:', error);
+        });
+    }
   };
 
   return (
